@@ -90,7 +90,6 @@ struct Fenwick {
     for (int i = 1; i <= n; i++) {
       a[i] += a[i - 1];
     }
-    T[1] = a[1];
     for (int i = 1; i <= n; i++) {
       int ii = i - (i & -i);
       T[i] = (ii == 0) ? a[i] : a[i] - a[ii];
@@ -153,12 +152,7 @@ struct Fenwick {
         }
       }
     }
-    i++;
-    if (i > n) {
-      return n + 1;
-    } else {
-      return i;
-    }
+    return std::min(i, n) + 1;
   }
   // Returns a[l] + ... + a[r]. This solves the point-update range-query variant
   // of the Dynamic Partial Sums problem and is comaptible with all of the above
@@ -200,10 +194,10 @@ struct Fenwick {
   // Adds delta to all a[x] where l <= x <= r.
   // Complexity: O(log n)
   // Assumes that: 1 <= l <= r <= n.
-  void rupq_update(int l, int r, int64_t val) {
-    update(l, val);
+  void rupq_update(int l, int r, int64_t delta) {
+    update(l, delta);
     if (r < n) {
-      update(r + 1, -val);
+      update(r + 1, -delta);
     }
   }
   // Returns a[idx].

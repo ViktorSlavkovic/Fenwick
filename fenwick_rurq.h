@@ -52,7 +52,7 @@ struct FenwickRURQ {
     T2->update(l, delta * (l - 1));
     if (r < n) {
       T1->update(r + 1, -delta);
-      T2->update(r + 1, delta * r);
+      T2->update(r + 1, -delta * r);
     }
   }
   // Returns a[1] + ... + a[idx].
