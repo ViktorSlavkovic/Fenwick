@@ -120,8 +120,8 @@ struct Fenwick {
     return sum;
   }
   // Returns the smallest k, such that a[1] + ... + a[k] is GEQ than val on
-  // success. Returns n + 1 otherwise.
-  // Complexity: Amortized O(n) since fast_access is O(1) on average.
+  // success. Returns n + 1 if the total sum is smaller.
+  // Complexity: O(n log n).
   int search(int64_t val) const {
     for (int i = 1; i <= n; i++) {
       if (prefix_sum(i) >= val) {
@@ -131,28 +131,25 @@ struct Fenwick {
     return n + 1;
   }
   // Returns the smallest k, such that a[1] + ... + a[k] is GEQ than val on
-  // success. Returns n + 1 otherwise.
+  // success. Returns n + 1 if the total sum is smaller.
   // Complexity: O(log n)
   // Note: This only works if the cumulative sums are nondecreasing!
   int fast_search(int64_t val) const {
+    val--;
     int i = 0;
     int mask = nmask;
     while (mask != 0) {
       int ii = i + mask;
       mask >>= 1;
-      if (ii <= n) {
-        if (T[ii] == val) {
-          return ii;
-        } else if (T[ii] < val) {
-          val -= T[ii];
-          i = ii;
-          if (val == 0) {
-            return i;
-          }
-        }
+      if (ii > n) {
+        continue;
+      }
+      if (T[ii] <= val) {
+        val -= T[ii];
+        i = ii;
       }
     }
-    return std::min(i, n) + 1;
+    return i + 1;
   }
   // Returns a[l] + ... + a[r]. This solves the point-update range-query variant
   // of the Dynamic Partial Sums problem and is comaptible with all of the above
