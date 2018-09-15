@@ -22,8 +22,6 @@ problems. What's covered:
   - 2D Range Sum
   - Point Update
 - Dynamic RMQ Structure with a regular and a counter Fenwick tree
-  - Indented item
-  - Indented item
 
 There are some random tests and benchmarks included as well. However, if all you
 care about are the implementations, .h files are all you need.
